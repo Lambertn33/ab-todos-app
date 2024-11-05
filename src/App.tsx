@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Home, Tasks } from "./pages";
-import Layout from "./components/Layout";
+import { Layout } from "./components";
 
 const App = () => {
   return (
