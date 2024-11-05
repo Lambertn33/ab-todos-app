@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ITodo } from "@/interfaces/Todo";
 import {
   EllipsisVerticalIcon,
@@ -9,8 +9,24 @@ import { useTheme } from "@/context/ThemeContext";
 
 const TodoItem: React.FC<{ todo: ITodo }> = ({ todo }) => {
   const { isDarkMode } = useTheme();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
   const displayText =
     todo.todo.length > 35 ? `${todo.todo.slice(0, 35)}...` : todo.todo;
+
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+
+  const handleOutsideClick = (e: MouseEvent) => {
+    if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+      setIsMenuOpen(false); // Close the menu if clicked outside
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
 
   return (
     <div
@@ -30,7 +46,42 @@ const TodoItem: React.FC<{ todo: ITodo }> = ({ todo }) => {
         >
           {todo.completed ? "Completed" : "In Progress"}
         </span>
-        <EllipsisVerticalIcon className="h-6 w-6" />
+
+        <div className="relative">
+          <EllipsisVerticalIcon
+            className="h-6 w-6 cursor-pointer"
+            onClick={toggleMenu}
+          />
+
+          {isMenuOpen && (
+            <div
+              ref={menuRef}
+              className={`absolute right-0 mt-2 w-24 overflow-hidden ${
+                isDarkMode ? "bg-primaryDark" : "bg-white"
+              } border rounded-lg shadow-lg ${
+                isDarkMode ? "bg-primaryDark text-gray-100" : "text-gray-700"
+              }`}
+            >
+              <button
+                className={`block px-4 py-2 text-sm ${
+                  isDarkMode ? "hover:bg-gray-500" : "hover:bg-gray-100"
+                } w-full text-left`}
+                onClick={() => console.log("Edit clicked")}
+              >
+                Edit
+              </button>
+              <hr />
+              <button
+                className={`block px-4 py-2 text-sm ${
+                  isDarkMode ? "hover:bg-gray-500" : "hover:bg-gray-100"
+                } w-full text-left`}
+                onClick={() => console.log("Delete clicked")}
+              >
+                Delete
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="mt-2 flex flex-col gap-1">

@@ -14,9 +14,4 @@ export default class TodosApi {
     const response = await this.axiosInstance.get("/todos");
     return response.data?.todos;
   }
-
-  async GET_ONE(taskId: string): Promise<ITodo> {
-    const response = await this.axiosInstance.get(`/todos/${taskId}`);
-    return response.data;
-  }
 }
