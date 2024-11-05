@@ -1,8 +1,18 @@
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+import { Home, Tasks } from "./pages";
+import Layout from "./components/Layout";
+
 const App = () => {
   return (
-    <div>
-      <p className="text-red-500">App</p>
-    </div>
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </Layout>
+    </Router>
   );
 };
 
