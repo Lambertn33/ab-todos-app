@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-
 import {
   HomeIcon,
   ClipboardIcon,
@@ -13,7 +12,7 @@ const links = [
   { name: "Tasks", icon: ClipboardIcon, path: "/tasks" },
 ];
 
-const Sidebar = () => {
+const Sidebar: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activePath, setActivePath] = useState<string>(useLocation().pathname);
 
@@ -21,25 +20,45 @@ const Sidebar = () => {
 
   const handleLinkClick = (path: string) => setActivePath(path);
 
-  // Effect to handle screen resize
+  // Handle screen resize
   useEffect(() => {
     const handleResize = () => {
-      const isSmallDevices = window.innerWidth < 768;
-      setIsCollapsed(isSmallDevices ? true : false);
+      setIsCollapsed(window.innerWidth < 768);
     };
 
-    // Set initial state based on screen size
-    handleResize();
-
+    handleResize(); // Set initial state based on screen size
     window.addEventListener("resize", handleResize);
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
+  const getNavLinkClasses = (isActive: boolean) => {
+    const baseClasses =
+      "flex items-center p-3 transition-colors duration-200 overflow-hidden";
+    const activeClasses = isActive
+      ? "text-primary border-l-4 border-primary bg-blue-200"
+      : isDarkMode
+      ? "text-gray-300 hover:bg-gray-700"
+      : "text-gray-600 hover:bg-gray-100 hover:text-gray-800";
+
+    return `${baseClasses} ${activeClasses}`;
+  };
+
+  const getIconClasses = (isActive: boolean) => {
+    return isActive
+      ? "text-primary"
+      : isDarkMode
+      ? "text-white"
+      : "text-gray-600";
+  };
+
   return (
     <div
-      className={`h-screen bg-white text-gray-800 shadow-lg flex flex-col transition-width duration-300 ${
+      className={`h-screen ${
+        isDarkMode ? "bg-primaryDark" : "bg-white"
+      } text-gray-800 shadow-lg flex flex-col transition-width duration-300 ${
         isCollapsed ? "w-16" : "w-64"
       }`}
     >
@@ -49,13 +68,19 @@ const Sidebar = () => {
         className="p-4 flex items-center justify-between text-gray-600 hover:text-gray-800 focus:outline-none"
       >
         {!isCollapsed && (
-          <span className="text-lg font-semibold text-primary">Tasks App</span>
+          <span
+            className={`${
+              isDarkMode ? "text-white" : "text-primary"
+            } font-bold text-xl uppercase`}
+          >
+            Tasks App
+          </span>
         )}
         <span className="ml-auto">
           {isCollapsed ? (
-            <Bars3Icon className="h-6 w-6 text-primary" />
+            <Bars3Icon className="h-6 w-6" />
           ) : (
-            <XMarkIcon className="h-6 w-6 text-primary" />
+            <XMarkIcon className="h-6 w-6" />
           )}
         </span>
       </button>
@@ -71,18 +96,12 @@ const Sidebar = () => {
               key={link.name}
               to={link.path}
               onClick={() => handleLinkClick(link.path)}
-              className={`flex items-center p-3 transition-colors duration-200 overflow-hidden ${
-                isActive
-                  ? "text-primary border-l-4 border-primary bg-blue-100"
-                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-800"
-              }`}
+              className={getNavLinkClasses(isActive)}
             >
-              {/* Icon with conditional color */}
               <IconComponent
-                className={`h-6 w-6 mr-3 ${
-                  isActive ? "text-primary" : "text-gray-600"
-                }`}
+                className={`h-6 w-6 mr-3 ${getIconClasses(isActive)}`}
               />
+
               {/* Show label only if sidebar is expanded */}
               {!isCollapsed && (
                 <span className="font-semibold">{link.name}</span>

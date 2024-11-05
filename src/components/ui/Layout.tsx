@@ -1,20 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
+import { useTheme } from "@/context/ThemeContext";
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const toggleTheme = () => {
-    setIsDarkMode((prev) => !prev);
-    document.documentElement.classList.toggle("dark", !isDarkMode);
-  };
-
+  const { isDarkMode, toggleTheme } = useTheme();
   return (
-    <div className="flex">
-      <Sidebar />
+    <div
+      className={`flex ${
+        isDarkMode ? "bg-secondaryDark text-white" : "bg-white"
+      }`}
+    >
+      <Sidebar isDarkMode={isDarkMode} />
       <div className="flex-1">
-        <Navbar toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+        <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
         <div className="p-4">{children}</div>
       </div>
     </div>
