@@ -4,3 +4,9 @@ export interface ITodo {
   completed: Boolean;
   userId: number;
 }
+
+export const TodoType = {
+  COMPLETED: "completed",
+  PENDING: "pending",
+  ALL: "all",
+};
