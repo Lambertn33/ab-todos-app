@@ -9,7 +9,7 @@ import {
 
 const links = [
   { name: "Home", icon: HomeIcon, path: "/" },
-  { name: "Tasks", icon: ClipboardIcon, path: "/tasks" },
+  { name: "Todos", icon: ClipboardIcon, path: "/todos" },
 ];
 
 const Sidebar: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {

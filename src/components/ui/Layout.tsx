@@ -14,7 +14,14 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <Sidebar isDarkMode={isDarkMode} />
       <div className="flex-1">
         <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-        <div className="p-4">{children}</div>
+        {/* .. 88px is the height of the Navbar.. */}
+        <div
+          className={`p-4 h-[calc(100vh-88px)] overflow-auto ${
+            isDarkMode ? "bg-secondaryDark text-white" : "bg-gray-100"
+          }`}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );

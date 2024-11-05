@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import { Home, Tasks } from "./pages";
+import { Home, Todos } from "./pages";
 import { Layout } from "./components";
 
 const App = () => {
@@ -8,7 +8,7 @@ const App = () => {
     <Router>
       <Layout>
         <Routes>
-          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/todos" element={<Todos />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </Layout>

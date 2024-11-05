@@ -16,7 +16,7 @@ const Navbar: React.FC<{ isDarkMode: boolean; toggleTheme: () => void }> = ({
   };
 
   return (
-    <div
+    <nav
       className={`flex items-center justify-between px-8 py-4 ${
         isDarkMode ? "bg-primaryDark" : "bg-white"
       } shadow-sm`}
@@ -52,7 +52,7 @@ const Navbar: React.FC<{ isDarkMode: boolean; toggleTheme: () => void }> = ({
           )}
         </div>
       </button>
-    </div>
+    </nav>
   );
 };
 
