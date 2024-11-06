@@ -14,4 +14,9 @@ export default class TodosApi {
     const response = await this.axiosInstance.get("/todos");
     return response.data?.todos;
   }
+
+  async POST(body: ITodo): Promise<ITodo> {
+    const response = await this.axiosInstance.post("/todos/add", body);
+    return response.data;
+  }
 }

@@ -9,12 +9,14 @@ const TodosFilter: React.FC<{
   completedTodosCount: number | undefined;
   pendingTodosCount: number | undefined;
   onFilterChange: (type: string) => void;
+  onOpenModal: () => void;
 }> = ({
   allTodosCount,
   completedTodosCount,
   pendingTodosCount,
   filterType,
   onFilterChange,
+  onOpenModal,
 }) => {
   const { isDarkMode } = useTheme();
 
@@ -67,7 +69,10 @@ const TodosFilter: React.FC<{
       </div>
 
       <div className="flex justify-between items-center">
-        <button className="flex items-center gap-x-3 border-2 rounded-lg px-4 py-1">
+        <button
+          className="flex items-center gap-x-3 border-2 rounded-lg px-4 py-1"
+          onClick={onOpenModal}
+        >
           <PlusIcon className="w-4 h-4" />
           <span
             className={`${

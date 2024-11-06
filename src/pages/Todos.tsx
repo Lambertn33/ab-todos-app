@@ -1,26 +1,55 @@
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { ITodo } from "@/interfaces/Todo";
-import { TodosFilter, TodosHeader, TodosList } from "@/components";
+import { useState, useEffect } from "react";
+import { TodoForm, TodosFilter, TodosHeader, TodosList } from "@/components";
 import { TodoType } from "@/interfaces/Todo";
-import TodosApi from "@/api/todos";
-
-const todosApi = new TodosApi();
+import { useAddTodo, useTodos } from "@/hooks/useTodos";
 
 const Todos = () => {
+  // Create Todo
   const {
-    isLoading,
-    error,
-    data: todos,
-  } = useQuery<ITodo[]>({
-    queryKey: ["todos"],
-    queryFn: () => todosApi.GET_ALL(),
-  });
+    mutate: addTodo,
+    isSuccess: isAddTodoSuccess,
+    reset,
+    error: addTodoError,
+  } = useAddTodo();
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    reset(); // Reset mutation state when closing modal
+  };
 
+  const handleAddTodo = (newTodo: {
+    completed: boolean;
+    userId: string;
+    todo: string;
+  }) => {
+    addTodo({
+      ...newTodo,
+      userId: +newTodo.userId,
+    });
+  };
+
+  // Close modal on successful todo addition
+  useEffect(() => {
+    if (isAddTodoSuccess) {
+      handleCloseModal();
+      reset();
+    }
+  }, [isAddTodoSuccess]);
+
+  useEffect(() => {
+    if (addTodoError) {
+      console.log(addTodoError);
+    }
+  }, [addTodoError]);
+
+  // Query Todos
+  const { isLoading, error: todosError, data: todos } = useTodos();
+
+  // Local state for filter and modal control
   const [filterType, setFilterType] = useState("all");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading tasks</div>;
+  if (todosError) return <div>Error loading tasks</div>;
 
   const allTodosCount = todos?.length;
   const completedTodosCount = todos?.filter((todo) => todo.completed).length;
@@ -42,9 +71,17 @@ const Todos = () => {
           pendingTodosCount={pendingTodosCount}
           filterType={filterType}
           onFilterChange={setFilterType}
+          onOpenModal={() => setIsModalOpen(true)}
         />
       </div>
       <TodosList todos={filteredTodos || []} />
+      {isModalOpen && (
+        <TodoForm
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onCreateTodo={handleAddTodo}
+        />
+      )}
     </div>
   );
 };
