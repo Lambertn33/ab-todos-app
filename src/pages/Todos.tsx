@@ -3,17 +3,20 @@ import { TodoForm, TodosFilter, TodosHeader, TodosList } from "@/components";
 import { TodoType } from "@/interfaces/Todo";
 import { useAddTodo, useTodos } from "@/hooks/useTodos";
 
+import { Grid } from "react-loader-spinner";
+
 const Todos = () => {
   // Create Todo
   const {
     mutate: addTodo,
     isSuccess: isAddTodoSuccess,
     reset,
-    error: addTodoError,
+    isPending: isAddTodoPending,
   } = useAddTodo();
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    reset(); // Reset mutation state when closing modal
+    reset();
   };
 
   const handleAddTodo = (newTodo: {
@@ -35,20 +38,28 @@ const Todos = () => {
     }
   }, [isAddTodoSuccess]);
 
-  useEffect(() => {
-    if (addTodoError) {
-      console.log(addTodoError);
-    }
-  }, [addTodoError]);
-
   // Query Todos
   const { isLoading, error: todosError, data: todos } = useTodos();
 
-  // Local state for filter and modal control
+  // Local state
   const [filterType, setFilterType] = useState("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex w-full justify-center items-center h-full">
+        <Grid
+          visible={true}
+          height="80"
+          width="80"
+          color="#4fa94d"
+          ariaLabel="grid-loading"
+          radius="12.5"
+          wrapperStyle={{}}
+          wrapperClass="grid-wrapper"
+        />
+      </div>
+    );
   if (todosError) return <div>Error loading tasks</div>;
 
   const allTodosCount = todos?.length;
@@ -80,6 +91,7 @@ const Todos = () => {
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onCreateTodo={handleAddTodo}
+          isAddTodoPending={isAddTodoPending}
         />
       )}
     </div>

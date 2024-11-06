@@ -4,6 +4,7 @@ import { useTheme } from "@/context/ThemeContext";
 
 interface TodoFormProps {
   isOpen: boolean;
+  isAddTodoPending: boolean;
   onClose: () => void;
   onCreateTodo: (newTodo: {
     completed: boolean;
@@ -14,6 +15,7 @@ interface TodoFormProps {
 
 const TodoForm: React.FC<TodoFormProps> = ({
   isOpen,
+  isAddTodoPending,
   onClose,
   onCreateTodo,
 }) => {
@@ -35,6 +37,9 @@ const TodoForm: React.FC<TodoFormProps> = ({
   };
 
   const { isDarkMode } = useTheme();
+
+  const isFormValid =
+    todo.todo !== "" && todo.userId !== "" && todo.completed !== null;
 
   return (
     <div
@@ -92,10 +97,13 @@ const TodoForm: React.FC<TodoFormProps> = ({
           <span className="font-semibold text-sm">Todo Completed? *</span>
         </label>
         <button
+          disabled={isAddTodoPending || !isFormValid}
           onClick={handleSubmit}
-          className="bg-blue-500 text-white px-4 py-2 w-full rounded-lg"
+          className={`${
+            isAddTodoPending || !isFormValid ? "bg-blue-400" : "bg-primary"
+          } text-white px-4 py-2 w-full rounded-lg`}
         >
-          Add Task
+          {isAddTodoPending ? "Please wait..." : "Create Todo"}
         </button>
       </div>
     </div>
