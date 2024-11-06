@@ -1,9 +1,4 @@
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  UseMutationResult,
-} from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import TodosApi from "@/api/todos";
 import { ITodo } from "@/interfaces/Todo";
 
@@ -16,7 +11,7 @@ export const useTodos = () => {
   });
 };
 
-export const useAddTodo = (): UseMutationResult<ITodo, Error, ITodo> => {
+export const useAddTodo = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -24,6 +19,19 @@ export const useAddTodo = (): UseMutationResult<ITodo, Error, ITodo> => {
     onSuccess: (newTodo) => {
       queryClient.setQueryData<ITodo[]>(["todos"], (oldTodos) => {
         return oldTodos ? [...oldTodos, newTodo] : [newTodo];
+      });
+    },
+  });
+};
+
+export const useDeleteTodo = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (todoId: number) => todosApi.DELETE(todoId),
+    onSuccess: (deletedTodo) => {
+      queryClient.setQueryData<ITodo[]>(["todos"], (oldTodos) => {
+        return oldTodos?.filter((todo) => todo.id !== deletedTodo.id);
       });
     },
   });

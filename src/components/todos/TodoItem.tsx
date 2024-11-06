@@ -6,6 +6,7 @@ import {
   ChatBubbleOvalLeftEllipsisIcon,
 } from "@heroicons/react/24/outline";
 import { useTheme } from "@/context/ThemeContext";
+import { useDeleteTodo } from "@/hooks/useTodos";
 
 const TodoItem: React.FC<{ todo: ITodo }> = ({ todo }) => {
   const { isDarkMode } = useTheme();
@@ -27,6 +28,11 @@ const TodoItem: React.FC<{ todo: ITodo }> = ({ todo }) => {
     document.addEventListener("mousedown", handleOutsideClick);
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
+
+  // delete Todo
+  const { mutate: deleteTodo } = useDeleteTodo();
+
+  const handleDeleteTodo = (todoId: number) => deleteTodo(todoId);
 
   return (
     <div
@@ -75,7 +81,7 @@ const TodoItem: React.FC<{ todo: ITodo }> = ({ todo }) => {
                 className={`block px-4 py-2 text-sm ${
                   isDarkMode ? "hover:bg-gray-500" : "hover:bg-gray-100"
                 } w-full text-left`}
-                onClick={() => console.log("Delete clicked")}
+                onClick={() => handleDeleteTodo(todo.id!)}
               >
                 Delete
               </button>

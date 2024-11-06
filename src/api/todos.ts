@@ -19,4 +19,9 @@ export default class TodosApi {
     const response = await this.axiosInstance.post("/todos/add", body);
     return response.data;
   }
+
+  async DELETE(todoId: number): Promise<ITodo> {
+    const response = await this.axiosInstance.delete(`/todos/${todoId}`);
+    return response.data;
+  }
 }

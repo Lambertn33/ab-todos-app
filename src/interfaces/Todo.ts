@@ -3,6 +3,8 @@ export interface ITodo {
   todo: string;
   completed: Boolean;
   userId: number;
+  isDeleted?: boolean;
+  deletedOn?: string;
 }
 
 export const TodoType = {
