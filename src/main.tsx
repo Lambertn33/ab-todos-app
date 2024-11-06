@@ -7,12 +7,15 @@ import App from "./App.tsx";
 const queryClient = new QueryClient();
 
 import { ThemeProvider } from "./context/ThemeContext.tsx";
+import { SearchProvider } from "./context/SearchContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <App />
+        <SearchProvider>
+          <App />
+        </SearchProvider>
       </ThemeProvider>
     </QueryClientProvider>
   </StrictMode>

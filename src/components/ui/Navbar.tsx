@@ -5,14 +5,16 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 
-const Navbar: React.FC<{ isDarkMode: boolean; toggleTheme: () => void }> = ({
-  isDarkMode,
-  toggleTheme,
-}) => {
+const Navbar: React.FC<{
+  isDarkMode: boolean;
+  toggleTheme: () => void;
+  onSearch: (term: string) => void;
+}> = ({ isDarkMode, toggleTheme, onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+    onSearch(e.target.value);
   };
 
   return (

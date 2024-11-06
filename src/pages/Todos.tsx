@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { TodoForm, TodosFilter, TodosHeader, TodosList } from "@/components";
 import { TodoType } from "@/interfaces/Todo";
 import { useAddTodo, useTodos } from "@/hooks/useTodos";
-
 import { Grid } from "react-loader-spinner";
+import { useSearch } from "@/context/SearchContext";
 
 const Todos = () => {
+  const { searchTerm } = useSearch();
+
   // Create Todo
   const {
     mutate: addTodo,
@@ -45,6 +47,33 @@ const Todos = () => {
   const [filterType, setFilterType] = useState("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // count and display todos based on search input
+  const allTodosCount = todos?.filter((todo) =>
+    todo.todo.toLowerCase().includes((searchTerm || "").toLowerCase())
+  ).length;
+
+  const completedTodosCount = todos
+    ?.filter((todo) => todo.completed)
+    .filter((todo) =>
+      todo.todo.toLowerCase().includes((searchTerm || "").toLowerCase())
+    ).length;
+
+  const pendingTodosCount = todos
+    ?.filter((todo) => !todo.completed)
+    .filter((todo) =>
+      todo.todo.toLowerCase().includes((searchTerm || "").toLowerCase())
+    ).length;
+
+  const filteredTodos = todos
+    ?.filter((todo) => {
+      if (filterType === TodoType.COMPLETED) return todo.completed;
+      if (filterType === TodoType.PENDING) return !todo.completed;
+      return true;
+    })
+    .filter((todo) =>
+      todo.todo.toLowerCase().includes((searchTerm || "").toLowerCase())
+    );
+
   if (isLoading)
     return (
       <div className="flex w-full justify-center items-center h-full">
@@ -61,16 +90,6 @@ const Todos = () => {
       </div>
     );
   if (todosError) return <div>Error loading tasks</div>;
-
-  const allTodosCount = todos?.length;
-  const completedTodosCount = todos?.filter((todo) => todo.completed).length;
-  const pendingTodosCount = todos?.filter((todo) => !todo.completed).length;
-
-  const filteredTodos = todos?.filter((todo) => {
-    if (filterType === TodoType.COMPLETED) return todo.completed;
-    if (filterType === TodoType.PENDING) return !todo.completed;
-    return true;
-  });
 
   return (
     <div>
