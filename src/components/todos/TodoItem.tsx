@@ -6,7 +6,7 @@ import {
   ChatBubbleOvalLeftEllipsisIcon,
 } from "@heroicons/react/24/outline";
 import { useTheme } from "@/context/ThemeContext";
-import { useDeleteTodo } from "@/hooks/useTodos";
+import { useDeleteTodo, useUpdateTodo } from "@/hooks/useTodos";
 
 const TodoItem: React.FC<{ todo: ITodo }> = ({ todo }) => {
   const { isDarkMode } = useTheme();
@@ -28,6 +28,22 @@ const TodoItem: React.FC<{ todo: ITodo }> = ({ todo }) => {
     document.addEventListener("mousedown", handleOutsideClick);
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
+
+  // update Todo
+  const { mutate: updateTodo, isSuccess: isUpdatingSuccess } = useUpdateTodo();
+
+  const handleUpdateTodo = (todoId: number, completed: boolean) => {
+    updateTodo({
+      todoId,
+      completed,
+    });
+  };
+
+  useEffect(() => {
+    if (isUpdatingSuccess) {
+      setIsMenuOpen(false);
+    }
+  }, [isUpdatingSuccess]);
 
   // delete Todo
   const { mutate: deleteTodo } = useDeleteTodo();
@@ -62,7 +78,7 @@ const TodoItem: React.FC<{ todo: ITodo }> = ({ todo }) => {
           {isMenuOpen && (
             <div
               ref={menuRef}
-              className={`absolute right-0 mt-2 w-24 overflow-hidden ${
+              className={`absolute right-0 mt-2 w-40 overflow-hidden ${
                 isDarkMode ? "bg-primaryDark" : "bg-white"
               } border rounded-lg shadow-lg ${
                 isDarkMode ? "bg-primaryDark text-gray-100" : "text-gray-700"
@@ -72,9 +88,9 @@ const TodoItem: React.FC<{ todo: ITodo }> = ({ todo }) => {
                 className={`block px-4 py-2 text-sm ${
                   isDarkMode ? "hover:bg-gray-500" : "hover:bg-gray-100"
                 } w-full text-left`}
-                onClick={() => console.log("Edit clicked")}
+                onClick={() => handleUpdateTodo(todo.id!, !todo.completed)}
               >
-                Edit
+                Mark as {todo.completed ? "Pending" : "Completed"}
               </button>
               <hr />
               <button

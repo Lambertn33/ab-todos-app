@@ -20,6 +20,13 @@ export default class TodosApi {
     return response.data;
   }
 
+  async PUT(todo: { todoId: number; completed: boolean }): Promise<ITodo> {
+    const response = await this.axiosInstance.put(`/todos/${todo.todoId}`, {
+      completed: todo.completed,
+    });
+    return response.data;
+  }
+
   async DELETE(todoId: number): Promise<ITodo> {
     const response = await this.axiosInstance.delete(`/todos/${todoId}`);
     return response.data;
