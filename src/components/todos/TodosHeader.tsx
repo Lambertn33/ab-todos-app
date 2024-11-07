@@ -28,7 +28,6 @@ const TodosHeader = () => {
           {t("todos.header.from")} {today}
         </span>
       </div>
-
       <div className="flex justify-between items-center">
         <h2 className="text-2xl lg:text-3xl font-bold">
           {t("todos.header.websiteDesign")}

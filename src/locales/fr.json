@@ -9,6 +9,10 @@
     "home": "Accueil",
     "todos": "tâches"
   },
+  "home": {
+    "title": "Bienvenue sur cette application",
+    "buttonLink": "Afficher les tâches"
+  },
   "todos": {
     "header": {
       "workspace": "Espace de travail",

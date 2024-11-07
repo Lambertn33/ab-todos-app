@@ -9,6 +9,10 @@
     "home": "Home",
     "todos": "todos"
   },
+  "home": {
+    "title": "Welcome to this App",
+    "buttonLink": "View Todos"
+  },
   "todos": {
     "header": {
       "workspace": "Workspace",
