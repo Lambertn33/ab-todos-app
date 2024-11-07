@@ -6,15 +6,17 @@ import {
   XMarkIcon,
   Bars3Icon,
 } from "@heroicons/react/24/outline";
-
-const links = [
-  { name: "Home", icon: HomeIcon, path: "/" },
-  { name: "Todos", icon: ClipboardIcon, path: "/todos" },
-];
+import { useTranslation } from "react-i18next";
 
 const Sidebar: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
+  const { t } = useTranslation();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activePath, setActivePath] = useState<string>(useLocation().pathname);
+
+  const links = [
+    { name: t("sidebar.home"), icon: HomeIcon, path: "/" },
+    { name: t("sidebar.todos"), icon: ClipboardIcon, path: "/todos" },
+  ];
 
   const toggleSidebar = () => setIsCollapsed((prev) => !prev);
 
@@ -73,7 +75,7 @@ const Sidebar: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
               isDarkMode ? "text-white" : "text-primary"
             } font-bold text-xl uppercase`}
           >
-            Tasks App
+            {t("sidebar.title")}
           </span>
         )}
         <span className="ml-auto">

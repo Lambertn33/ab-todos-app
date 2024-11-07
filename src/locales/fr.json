@@ -1,0 +1,12 @@
+{
+  "navbar": {
+    "title": "Bienvenue",
+    "searchPlaceholder": "Rechercher...",
+    "toggleTheme": "Changer de thème"
+  },
+  "sidebar": {
+    "title": "App de taches",
+    "home": "Accueil",
+    "todos": "tâches"
+  }
+}

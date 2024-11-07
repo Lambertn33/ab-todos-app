@@ -1,0 +1,12 @@
+{
+  "navbar": {
+    "title": "Welcome",
+    "searchPlaceholder": "Search...",
+    "toggleTheme": "Toggle Theme"
+  },
+  "sidebar": {
+    "title": "Tasks App",
+    "home": "Home",
+    "todos": "todos"
+  }
+}
