@@ -8,5 +8,34 @@
     "title": "Tasks App",
     "home": "Home",
     "todos": "todos"
+  },
+  "todos": {
+    "header": {
+      "workspace": "Workspace",
+      "creative": "Creative",
+      "creativeWebsite": "Creative Website",
+      "from": "from",
+      "websiteDesign": "Website Design",
+      "updated": "updated 12mins ago"
+    },
+    "filters": {
+      "all": "All Tasks",
+      "pending": "Pending",
+      "completed": "Completed",
+      "new": "New Task"
+    },
+    "item": {
+      "markAs": "Mark as",
+      "delete": "Delete"
+    },
+    "form": {
+      "title": "Add New Todo",
+      "todo": "Todo",
+      "owner": "Todo Owner",
+      "selectLabel": "Select a user",
+      "checkBoxLabel": "Todo Completed?",
+      "buttonLabel": "Create Todo",
+      "creating": "Please wait..."
+    }
   }
 }

@@ -2,6 +2,7 @@ import React from "react";
 import { useTheme } from "@/context/ThemeContext";
 import { TodoType } from "@/interfaces/Todo";
 import { PlusIcon } from "@heroicons/react/24/outline";
+import { useTranslation } from "react-i18next";
 
 const TodosFilter: React.FC<{
   filterType: string;
@@ -19,12 +20,17 @@ const TodosFilter: React.FC<{
   onOpenModal,
 }) => {
   const { isDarkMode } = useTheme();
+  const { t } = useTranslation();
 
   const filterOptions = [
-    { label: "All Tasks", value: allTodosCount, type: TodoType.ALL },
-    { label: "Pending", value: pendingTodosCount, type: TodoType.PENDING },
+    { label: t("todos.filters.all"), value: allTodosCount, type: TodoType.ALL },
     {
-      label: "Completed",
+      label: t("todos.filters.pending"),
+      value: pendingTodosCount,
+      type: TodoType.PENDING,
+    },
+    {
+      label: t("todos.filters.completed"),
       value: completedTodosCount,
       type: TodoType.COMPLETED,
     },
@@ -80,7 +86,7 @@ const TodosFilter: React.FC<{
             } text-sm `}
           >
             {" "}
-            New Task
+            {t("todos.filters.new")}
           </span>
         </button>
       </div>

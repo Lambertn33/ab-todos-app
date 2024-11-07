@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "@/context/ThemeContext";
+import { useTranslation } from "react-i18next";
 
 interface TodoFormProps {
   isOpen: boolean;
@@ -37,6 +38,7 @@ const TodoForm: React.FC<TodoFormProps> = ({
   };
 
   const { isDarkMode } = useTheme();
+  const { t } = useTranslation();
 
   const isFormValid =
     todo.todo !== "" && todo.userId !== "" && todo.completed !== null;
@@ -50,26 +52,26 @@ const TodoForm: React.FC<TodoFormProps> = ({
       }`}
     >
       <div className="flex items-center justify-between">
-        <h2 className="text-xl">Add New Todo</h2>
+        <h2 className="text-xl">{t("todos.form.title")}</h2>
         <XMarkIcon className="w-6 h-6 cursor-pointer" onClick={onClose} />
       </div>
       <div className="mt-8">
         <div className="flex flex-col gap-2">
           <label htmlFor="todo" className="text-sm font-semibold">
-            Todo *
+            {t("todos.form.todo")} *
           </label>
           <input
             id="todo"
             type="text"
             value={todo.todo}
             onChange={(e) => handleChange("todo", e.target.value)}
-            placeholder="Todo"
+            placeholder={t("todos.form.todo")}
             className="w-full border border-gray-300 p-2 rounded-lg mb-4 text-primaryDark"
           />
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="todo" className="text-sm font-semibold">
-            Todo Owner *
+            {t("todos.form.owner")} *
           </label>
           <select
             id="todo"
@@ -78,7 +80,7 @@ const TodoForm: React.FC<TodoFormProps> = ({
             className="w-full border border-gray-300 p-2 rounded-lg mb-4 text-primaryDark"
           >
             <option value="" disabled>
-              Select a user
+              {t("todos.form.selectLabel")}
             </option>
             {Array.from({ length: 5 }, (_, i) => (
               <option key={i + 1} value={i + 1}>
@@ -94,7 +96,9 @@ const TodoForm: React.FC<TodoFormProps> = ({
             onChange={(e) => handleChange("completed", e.target.checked)}
             className="mr-2 p-2"
           />
-          <span className="font-semibold text-sm">Todo Completed? *</span>
+          <span className="font-semibold text-sm">
+            {t("todos.form.checkBoxLabel")} *
+          </span>
         </label>
         <button
           disabled={isAddTodoPending || !isFormValid}
@@ -103,7 +107,9 @@ const TodoForm: React.FC<TodoFormProps> = ({
             isAddTodoPending || !isFormValid ? "bg-blue-400" : "bg-primary"
           } text-white px-4 py-2 w-full rounded-lg`}
         >
-          {isAddTodoPending ? "Please wait..." : "Create Todo"}
+          {isAddTodoPending
+            ? t("todos.form.creating")
+            : t("todos.form.buttonLabel")}
         </button>
       </div>
     </div>

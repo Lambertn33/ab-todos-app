@@ -7,9 +7,12 @@ import {
 } from "@heroicons/react/24/outline";
 import { useTheme } from "@/context/ThemeContext";
 import { useDeleteTodo, useUpdateTodo } from "@/hooks/useTodos";
+import { useTranslation } from "react-i18next";
 
 const TodoItem: React.FC<{ todo: ITodo }> = ({ todo }) => {
   const { isDarkMode } = useTheme();
+  const { t } = useTranslation();
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -66,7 +69,9 @@ const TodoItem: React.FC<{ todo: ITodo }> = ({ todo }) => {
             } 
         `}
         >
-          {todo.completed ? "Completed" : "In Progress"}
+          {todo.completed
+            ? t("todos.filters.completed")
+            : t("todos.filters.pending")}
         </span>
 
         <div className="relative">
@@ -90,7 +95,10 @@ const TodoItem: React.FC<{ todo: ITodo }> = ({ todo }) => {
                 } w-full text-left`}
                 onClick={() => handleUpdateTodo(todo.id!, !todo.completed)}
               >
-                Mark as {todo.completed ? "Pending" : "Completed"}
+                {t("todos.item.markAs")}{" "}
+                {todo.completed
+                  ? t("todos.filters.pending")
+                  : t("todos.filters.completed")}
               </button>
               <hr />
               <button
@@ -99,7 +107,7 @@ const TodoItem: React.FC<{ todo: ITodo }> = ({ todo }) => {
                 } w-full text-left`}
                 onClick={() => handleDeleteTodo(todo.id!)}
               >
-                Delete
+                {t("todos.item.delete")}
               </button>
             </div>
           )}

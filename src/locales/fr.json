@@ -8,5 +8,34 @@
     "title": "App de taches",
     "home": "Accueil",
     "todos": "tâches"
+  },
+  "todos": {
+    "header": {
+      "workspace": "Espace de travail",
+      "creative": "Créative",
+      "creativeWebsite": "Site Web créatif",
+      "from": "Depuis",
+      "websiteDesign": "Conception de sites Web",
+      "updated": "mis à jour il y a 12 minutes"
+    },
+    "filters": {
+      "all": "Toutes les tâches",
+      "pending": "En attente",
+      "completed": "Complétés",
+      "new": "Nouvelle tâche"
+    },
+    "item": {
+      "markAs": "Marquer comme",
+      "delete": "Supprimer"
+    },
+    "form": {
+      "title": "Ajouter une nouvelle tâche",
+      "todo": "Tache",
+      "owner": "Proprietaire",
+      "selectLabel": "Sélectionnez proprietaire",
+      "checkBoxLabel": "tâche terminée ?",
+      "buttonLabel": "Créer la tâche",
+      "creating": "Une seconde..."
+    }
   }
 }
